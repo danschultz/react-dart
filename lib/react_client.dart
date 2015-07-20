@@ -521,6 +521,6 @@ dynamic _findDomNode(component) {
 }
 
 void setClientConfiguration() {
-  _React.callMethod('initializeTouchEvents', [true]);
+//  _React.callMethod('initializeTouchEvents', [true]);
   setReactConfiguration(_reactDom, _registerComponent, _render, null, _unmountComponentAtNode, _findDomNode);
 }
