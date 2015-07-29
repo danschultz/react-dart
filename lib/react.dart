@@ -344,7 +344,7 @@ title, tr, track, u, ul, variable, video, wbr;
 
 /** SVG elements */
 var circle, defs, ellipse, g, line, linearGradient, mask, path, pattern, polygon, polyline,
-radialGradient, rect, stop, svg, text, tspan;
+radialGradient, rect, stop, svg, text, tspan, image;
 
 
 /**
@@ -469,6 +469,7 @@ _createDOMComponents(creator){
   g = creator('g');
   defs = creator('defs');
   ellipse = creator('ellipse');
+  image = creator('image');
   line = creator('line');
   linearGradient = creator('linearGradient');
   mask = creator('mask');
