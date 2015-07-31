@@ -232,7 +232,7 @@ String _parseDomArgument(String key, dynamic value) {
   }
 
   value = _escapeTextForBrowser(value);
-  return " ${key.toLowerCase()}=\"${value}\"";
+  return " ${key}=\"${value}\"";
 }
 
 var _ESCAPE_LOOKUP = {
