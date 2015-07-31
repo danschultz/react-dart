@@ -295,9 +295,7 @@ Set _pairElements = new Set.from(["a", "abbr", "address", "article", "aside", "a
  * set of empty elements tags based on http://www.w3.org/TR/html-markup/syntax.html#void-element
  */
 Set _unPairElements = new Set.from(["area", "base", "br", "col", "hr", "img", "input", "link",
-    "meta", "param", "command", "embed", "keygen", "source","track", "wbr",
-    /** SVG elements */
-    "circle", "ellipse", "line", "path", "polygon", "polyline", "rect", "stop",]);
+    "meta", "param", "command", "embed", "keygen", "source","track", "wbr"]);
 
 
 /**
