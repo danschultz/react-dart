@@ -18,7 +18,20 @@ String _CHECKSUM_ATTR_NAME = "data-react-checksum";
 num    _GLOBAL_MOUNT_POINT_MAX = 9999999;
 num    _MOD = 65521;
 
-
+// The list is taken from
+// https://github.com/facebook/react/blob/0b063f8a09dae4b6b1de400ff2d9aba9108647de/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L80
+final _svgNamespacedAttributes = [
+  "xlinkActuate",
+  "xlinkArcrole",
+  "xlinkHref",
+  "xlinkRole",
+  "xlinkShow",
+  "xlinkTitle",
+  "xlinkType",
+  "xmlBase",
+  "xmlLang",
+  "xmlSpace",
+];
 
 typedef String OwnerFactory([String ownerId, num position, String key]);
 typedef OwnerFactory ReactComponentFactory(Map props, [dynamic children]);
@@ -195,6 +208,12 @@ String _parseDomArgument(String key, dynamic value) {
     key = 'class';
   }
 
+  if (_svgNamespacedAttributes.contains(key)) {
+    key = key.replaceAllMapped(
+        new RegExp(r'^([a-z]+)([A-Z].+)$'),
+        (Match m) => "${m[1]}:${m[2].toLowerCase()}");
+  }
+
   /**
    * change "htmlFor" for "for"
    */
@@ -239,7 +258,7 @@ String _escaper(Match match) {
  * @return {string} An escaped string.
  */
 String _escapeTextForBrowser(text) {
-  return ('' + text).replaceAllMapped(_ESCAPE_REGEX, _escaper);
+  return ("$text").replaceAllMapped(_ESCAPE_REGEX, _escaper);
 }
 
 /**
