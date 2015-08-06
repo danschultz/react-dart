@@ -33,6 +33,32 @@ final _svgNamespacedAttributes = [
   "xmlSpace",
 ];
 
+// The list is taken from
+// https://github.com/facebook/react/blob/0b063f8a09dae4b6b1de400ff2d9aba9108647de/src/renderers/dom/shared/SVGDOMPropertyConfig.js#L92
+final _svgAttributeNames = {
+  "clipPath": 'clip-path',
+  "fillOpacity": 'fill-opacity',
+  "fontFamily": 'font-family',
+  "fontSize": 'font-size',
+  "gradientTransform": 'gradientTransform',
+  "gradientUnits": 'gradientUnits',
+  "markerEnd": 'marker-end',
+  "markerMid": 'marker-mid',
+  "markerStart": 'marker-start',
+  "patternContentUnits": 'patternContentUnits',
+  "patternUnits": 'patternUnits',
+  "preserveAspectRatio": 'preserveAspectRatio',
+  "spreadMethod": 'spreadMethod',
+  "stopColor": 'stop-color',
+  "stopOpacity": 'stop-opacity',
+  "strokeDasharray": 'stroke-dasharray',
+  "strokeLinecap": 'stroke-linecap',
+  "strokeOpacity": 'stroke-opacity',
+  "strokeWidth": 'stroke-width',
+  "textAnchor": 'text-anchor',
+  "viewBox": 'viewBox'
+};
+
 typedef String OwnerFactory([String ownerId, num position, String key]);
 typedef OwnerFactory ReactComponentFactory(Map props, [dynamic children]);
 typedef Component ComponentFactory();
@@ -214,6 +240,10 @@ String _parseDomArgument(String key, dynamic value) {
         (Match m) => "${m[1]}:${m[2].toLowerCase()}");
   }
 
+  if (_svgAttributeNames.containsKey(key)) {
+    key = _svgAttributeNames[key];
+  }
+
   /**
    * change "htmlFor" for "for"
    */
@@ -240,11 +270,10 @@ var _ESCAPE_LOOKUP = {
   ">": "&gt;",
   "<": "&lt;",
   "\"": "&quot;",
-  "'": "&#x27;",
-  "/": "&#x2f;"
+  "'": "&#x27;"
 };
 
-var _ESCAPE_REGEX = new RegExp('[&><\\\'/]');
+var _ESCAPE_REGEX = new RegExp('[&><"\']');
 
 String _escaper(Match match) {
   return _ESCAPE_LOOKUP[match.group(0)];
