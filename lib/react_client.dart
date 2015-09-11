@@ -10,7 +10,6 @@ import "dart:html";
 import "dart:async";
 
 var _React = context['React'];
-var _Object = context['Object'];
 
 const PROPS = 'props';
 const INTERNAL = '__internal__';
@@ -19,21 +18,10 @@ const IS_MOUNTED = 'isMounted';
 const REFS = 'refs';
 
 newJsObjectEmpty() {
-  return new JsObject(_Object);
+  return new JsObject.jsify({});
 }
 
-final emptyJsMap = newJsObjectEmpty();
-newJsMap(Map map) {
-  var JsMap = newJsObjectEmpty();
-  for (var key in map.keys) {
-    if(map[key] is Map) {
-      JsMap[key] = newJsMap(map[key]);
-    } else {
-      JsMap[key] = map[key];
-    }
-  }
-  return JsMap;
-}
+final emptyJsMap = new JsObject.jsify({});
 
 /**
  * Type of [children] must be child or list of childs, when child is JsObject or String
@@ -229,7 +217,7 @@ ReactComponentFactory _registerComponent(ComponentFactory componentFactory, [Ite
    * create reactComponent with wrapped functions
    */
   JsFunction reactComponentFactory = _React.callMethod('createFactory', [
-    _React.callMethod('createClass', [newJsMap(
+    _React.callMethod('createClass', [new JsObject.jsify(
       removeUnusedMethods({
         'componentWillMount': componentWillMount,
         'componentDidMount': componentDidMount,
@@ -272,7 +260,7 @@ ReactComponentFactory _registerComponent(ComponentFactory componentFactory, [Ite
      */
     convertedArgs[INTERNAL] = {PROPS: extendedProps};
 
-    return reactComponentFactory.apply([convertedArgs, new JsArray.from(children)]);
+    return reactComponentFactory.apply([convertedArgs, new JsObject.jsify(children)]);
   };
 
   /**
@@ -293,9 +281,9 @@ _reactDom(String name) {
       props['style'] = new JsObject.jsify(props['style']);
     }
     if (children is Iterable) {
-      children = new JsArray.from(children);
+      children = new JsObject.jsify(children);
     }
-    return _React['createElement'].apply([name, newJsMap(props), children]);
+    return _React['createElement'].apply([name, new JsObject.jsify(props), children]);
   };
 
   return new ReactComponentFactoryProxy(_React['DOM'][name], call);
